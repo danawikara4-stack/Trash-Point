@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class PenjualanSampah extends Model
 {
@@ -13,4 +14,10 @@ class PenjualanSampah extends Model
         'total_berat',
         'total_nominal',
     ];
+
+    // Admin yang mencatat penjualan
+    public function admin(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'created_by');
+    }
 }

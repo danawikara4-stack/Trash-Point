@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class RiwayatStatus extends Model
 {
@@ -16,4 +17,16 @@ class RiwayatStatus extends Model
         'status_baru',
         'catatan',
     ];
+
+    // Riwayat perubahan status suatu laporan
+    public function laporan(): BelongsTo
+    {
+        return $this->belongsTo(Laporan::class, 'laporan_id');
+    }
+
+    // Pengguna yang mengubah status
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
 }
