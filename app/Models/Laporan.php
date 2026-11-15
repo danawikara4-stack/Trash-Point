@@ -10,13 +10,14 @@ class Laporan extends Model
 {
     protected $table = 'laporan';
 
-    protected $fillable = [
-        'kategori_sampah_id',
-        'lokasi_laporan_id',
-        'judul',
-        'deskripsi',
-        'foto_laporan',
-    ];
+  protected $fillable = [
+    'user_id',
+    'kategori_sampah_id',
+    'lokasi_laporan_id',
+    'judul',
+    'deskripsi',
+    'foto_laporan',
+];
 
     // Relasi ke pengguna yang membuat laporan
     public function user(): BelongsTo
