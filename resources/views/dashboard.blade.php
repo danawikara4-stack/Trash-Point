@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -23,6 +22,17 @@
             text-decoration: none;
             color: inherit;
         }
+
+        .notification-menu {
+            width: 340px;
+            max-width: 90vw;
+            max-height: 420px;
+            overflow-y: auto;
+        }
+
+        .notification-item {
+            white-space: normal;
+        }
     </style>
 </head>
 
@@ -36,14 +46,110 @@
                 TrashPoint
             </a>
 
-            <form action="{{ route('logout') }}" method="POST">
-                @csrf
+            <div class="d-flex align-items-center">
 
-                <button type="submit" class="btn btn-outline-light btn-sm">
-                    Logout
-                </button>
-            </form>
+                <!-- Notifikasi -->
+                @php
+                    $jumlahNotifikasi = auth()->user()
+                        ->unreadNotifications()
+                        ->count();
 
+                    $daftarNotifikasi = auth()->user()
+                        ->notifications()
+                        ->latest()
+                        ->take(5)
+                        ->get();
+                @endphp
+
+                <div class="dropdown me-3">
+
+                    <button
+                        class="btn btn-outline-light position-relative"
+                        type="button"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false"
+                        title="Notifikasi">
+
+                        <span style="font-size: 18px;">🔔</span>
+
+                        @if($jumlahNotifikasi > 0)
+                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                {{ $jumlahNotifikasi }}
+                            </span>
+                        @endif
+
+                    </button>
+
+                    <div class="dropdown-menu dropdown-menu-end p-2 notification-menu">
+
+                        <h6 class="dropdown-header fw-bold">
+                            Notifikasi Terbaru
+                        </h6>
+
+                        @forelse($daftarNotifikasi as $notifikasi)
+
+                            <div class="dropdown-item notification-item border-bottom py-2">
+
+                                <div class="fw-bold">
+                                    {{ $notifikasi->data['judul'] ?? 'Notifikasi TrashPoint' }}
+                                </div>
+
+                                <p class="small mb-1 text-wrap">
+                                    {{ $notifikasi->data['pesan'] ?? 'Ada pembaruan pada laporan Anda.' }}
+                                </p>
+
+                                <small class="text-muted">
+                                    {{ $notifikasi->created_at->format('d-m-Y H:i') }}
+                                </small>
+
+                                @if(is_null($notifikasi->read_at))
+
+                                    <form
+                                        action="{{ route('notifikasi.baca', $notifikasi->id) }}"
+                                        method="POST"
+                                        class="mt-2">
+
+                                        @csrf
+
+                                        <button
+                                            type="submit"
+                                            class="btn btn-sm btn-success">
+                                            Tandai sudah dibaca
+                                        </button>
+
+                                    </form>
+
+                                @else
+
+                                    <small class="text-success d-block mt-1">
+                                        ✓ Sudah dibaca
+                                    </small>
+
+                                @endif
+
+                            </div>
+
+                        @empty
+
+                            <p class="text-muted text-center small p-3 mb-0">
+                                Belum ada notifikasi.
+                            </p>
+
+                        @endforelse
+
+                    </div>
+                </div>
+
+                <!-- Logout -->
+                <form action="{{ route('logout') }}" method="POST">
+                    @csrf
+
+                    <button type="submit" class="btn btn-outline-light btn-sm">
+                        Logout
+                    </button>
+                </form>
+
+            </div>
         </div>
     </nav>
 
@@ -97,8 +203,7 @@
             <!-- Pelaporan Sampah -->
             <div class="col-md-4">
 
-                <a href="{{ route('laporan.create') }}"
-                   class="menu-link">
+                <a href="{{ route('laporan.create') }}" class="menu-link">
 
                     <div class="card border-0 shadow-sm p-3 h-100 menu-card">
 
@@ -121,8 +226,7 @@
             <!-- Status Laporan -->
             <div class="col-md-4">
 
-                <a href="{{ route('laporan.index') }}"
-                   class="menu-link">
+                <a href="{{ route('laporan.index') }}" class="menu-link">
 
                     <div class="card border-0 shadow-sm p-3 h-100 menu-card">
 
@@ -164,6 +268,8 @@
         </div>
 
     </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
 </html>

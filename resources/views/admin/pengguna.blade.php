@@ -59,8 +59,7 @@
                       method="POST"
                       class="d-inline">
                     @csrf
-                    <button type="submit"
-                            class="btn btn-outline-light btn-sm">
+                    <button type="submit" class="btn btn-outline-light btn-sm">
                         Logout
                     </button>
                 </form>
@@ -94,6 +93,55 @@
                 </div>
             @endif
 
+            <!-- Form Pencarian dan Filter -->
+            <form action="{{ route('admin.pengguna') }}"
+                  method="GET"
+                  class="row g-2 mb-4">
+
+                <div class="col-md-6">
+                    <input
+                        type="text"
+                        name="q"
+                        class="form-control"
+                        placeholder="Cari nama atau email pengguna..."
+                        value="{{ request('q') }}">
+                </div>
+
+                <div class="col-md-3">
+                    <select name="role" class="form-select">
+                        <option value="">Semua Role</option>
+
+                        <option value="admin"
+                            {{ request('role') == 'admin' ? 'selected' : '' }}>
+                            Admin
+                        </option>
+
+                        <option value="petugas"
+                            {{ request('role') == 'petugas' ? 'selected' : '' }}>
+                            Petugas
+                        </option>
+
+                        <option value="masyarakat"
+                            {{ request('role') == 'masyarakat' ? 'selected' : '' }}>
+                            Masyarakat
+                        </option>
+                    </select>
+                </div>
+
+                <div class="col-md-3 d-flex gap-2">
+                    <button type="submit" class="btn btn-success w-100">
+                        Cari
+                    </button>
+
+                    <a href="{{ route('admin.pengguna') }}"
+                       class="btn btn-secondary w-100">
+                        Reset
+                    </a>
+                </div>
+
+            </form>
+
+            <!-- Tabel Pengguna -->
             <div class="table-responsive">
 
                 <table class="table table-bordered table-hover align-middle">
@@ -105,6 +153,7 @@
                             <th>Email</th>
                             <th>Role</th>
                             <th>Tanggal Registrasi</th>
+                            <th>Aksi</th>
                         </tr>
                     </thead>
 
@@ -144,13 +193,22 @@
                                         ? $pengguna->created_at->format('d-m-Y H:i')
                                         : '-' }}
                                 </td>
+
+                                <!-- Tombol Detail -->
+                                <td>
+                                    <a href="{{ route('admin.pengguna.detail', $pengguna->id) }}"
+                                       class="btn btn-info btn-sm text-white">
+                                        Detail
+                                    </a>
+                                </td>
+
                             </tr>
 
                         @empty
 
                             <tr>
-                                <td colspan="5" class="text-center py-4">
-                                    Belum ada pengguna yang terdaftar.
+                                <td colspan="6" class="text-center py-4">
+                                    Tidak ada pengguna yang cocok dengan pencarian.
                                 </td>
                             </tr>
 
