@@ -247,9 +247,12 @@
             </div>
 
             <!-- Penjualan Sampah -->
-            <div class="col-md-4">
+        <div class="col-md-4">
 
-                <div class="card border-0 shadow-sm p-3 h-100">
+            <a href="{{ route('masyarakat.penjualan.index') }}"
+            class="menu-link">
+
+                <div class="card border-0 shadow-sm p-3 h-100 menu-card">
 
                     <h5>Penjualan Sampah</h5>
 
@@ -257,13 +260,15 @@
                         Lihat informasi rekapitulasi penjualan sampah.
                     </p>
 
-                    <span class="text-secondary fw-semibold mt-auto">
-                        Segera Hadir
+                    <span class="text-success fw-semibold mt-auto">
+                        Lihat Rekapitulasi →
                     </span>
 
                 </div>
 
-            </div>
+            </a>
+
+        </div>
 
         </div>
 

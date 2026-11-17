@@ -82,6 +82,8 @@
             <a href="{{ route('admin.dashboard') }}">Dashboard</a>
             <a href="{{ route('admin.laporan') }}">Kelola Laporan</a>
             <a href="{{ route('admin.pengguna') }}">Data Pengguna</a>
+            <a href="{{ route('admin.penjualan.index') }}">Penjualan Sampah</a>
+            
         </div>
 
         <!-- Konten Dashboard -->

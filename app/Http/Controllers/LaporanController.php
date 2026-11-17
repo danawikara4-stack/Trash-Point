@@ -79,6 +79,7 @@ class LaporanController extends Controller
                 'judul' => $validated['judul'],
                 'deskripsi' => $validated['deskripsi'],
                 'foto_laporan' => $fotoPath,
+                'status' => 'menunggu',
             ]);
 
             // Catat status awal laporan
@@ -86,7 +87,7 @@ class LaporanController extends Controller
                 'laporan_id' => $laporan->id,
                 'user_id' => Auth::id(),
                 'status_sebelumnya' => null,
-                'status_baru' => $laporan->status,
+                'status_baru' => 'menunggu',
                 'catatan' => 'Laporan baru dibuat.',
                 'created_at' => now(),
             ]);
