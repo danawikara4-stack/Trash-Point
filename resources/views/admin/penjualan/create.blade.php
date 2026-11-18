@@ -143,10 +143,6 @@
                         </button>
                     </div>
 
-                    <small class="text-muted mt-3">
-                        Formulir ini belum terhubung ke proses penyimpanan database.
-                    </small>
-
                 </form>
 
             </div>
